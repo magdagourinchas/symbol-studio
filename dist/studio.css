@@ -117,7 +117,7 @@ button:hover:not(:disabled),a:hover{font-weight:700}
 .canvas-footer{flex-wrap:wrap;gap:12px 20px}
 .canvas-footer #selection{font-size:12px;line-height:14px;flex-basis:100%}
 .zoom{gap:16px;flex-wrap:wrap}
-#grid{margin-left:auto}#grid[aria-pressed=true]::before{background:var(--ink)}
+#grid{margin-left:auto}#grid[aria-pressed=true]::before,#grid-toggle[aria-pressed=true]::before{background:var(--ink)}
 #grid,#grid-toggle{margin-left:0}
 .history button,.element-actions button,label{font-size:14px;line-height:16px}
 .hint,.label,#status,.archive>.label,details,footer,.zoom output{font-size:12px;line-height:14px}
