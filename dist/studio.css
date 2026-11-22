@@ -188,5 +188,6 @@ details[open] summary::before,summary:hover::before{background:var(--interface)}
 .site-cursor{background:var(--interface);border-color:var(--interface)}
 .site-cursor.pressed{background:var(--interface)}
 #grid[aria-pressed=true]::before,#grid-toggle[aria-pressed=true]::before{background:var(--interface)}
+.shape-options button[aria-pressed=true]::before{background:var(--interface)}
 dialog,.post-crop,#post-canvas{border-color:var(--interface)}
 input[name=title]{border-bottom-color:var(--interface)}
