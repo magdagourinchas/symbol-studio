@@ -3,7 +3,7 @@
 @font-face{font-family:'Inter Tight';src:url(fonts/inter-tight-400.ttf) format('truetype');font-weight:400;font-display:swap}
 @font-face{font-family:'Inter Tight';src:url(fonts/inter-tight-600.ttf) format('truetype');font-weight:600;font-display:swap}
 /* Palette and default UI circle diameters. Keep UI borders at 1px. */
-:root{--paper:#FFFEF8;--ink:#141414;--primary-circle:25px;--control-circle:10px;--detail-circle:5px}
+:root{--paper:#C0C0C0;--ink:#141414;--interface:#EDEDED;--primary-circle:25px;--control-circle:10px;--detail-circle:5px}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.25 'Inter Tight'}
 button,input,select,kbd{font:inherit;color:inherit}
@@ -109,7 +109,7 @@ button::before,summary::before{box-sizing:border-box}
    descriptive 12/14. Retain Inter Tight throughout the studio. */
 @font-face{font-family:'Inter Tight';src:url(fonts/inter-tight-variable.ttf) format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
 body{font-size:16px;line-height:18px;font-weight:400}
-header h1{font-size:38px;line-height:44px;font-weight:700;letter-spacing:normal}
+header h1{font-size:38px;line-height:44px;font-weight:700;letter-spacing:normal;color:var(--interface)}
 input[name=title]{font-size:16px;line-height:16px;font-weight:650;letter-spacing:normal}
 .tree-section>h2,.inspector h2{font-size:16px;line-height:16px;font-weight:650}
 .tree-section>h2::before{top:.5px}
@@ -166,3 +166,24 @@ input[type=checkbox]:indeterminate{background:linear-gradient(var(--ink),var(--i
 .embed-mode .foot{justify-content:flex-end}
 .embed-mode body{min-width:280px}
 /* Motion updates individual 2D paths; no whole-symbol rotation, blur, or transform. */
+button::before{border-color:var(--interface)}
+button:hover:not(:disabled)::before,button.on::before,button.active::before{background:var(--interface)}
+:focus-visible{outline-color:var(--interface)}
+.canvas{border-color:var(--interface)}
+.tree-items::before,.tree-items>.card::after{border-color:var(--interface)}
+.tree-items::after,.tree-section>h2::before,.tree-items>.card::before{border-color:var(--interface);background:var(--paper)}
+.tree-items>.card:hover::before,.tree-items>.card.active::before{background:var(--interface)}
+.tree-section>h2::before{border-color:var(--interface)}
+.ticks i{border-color:var(--interface)}
+.dial input::-webkit-slider-runnable-track,.dial input::-moz-range-track{border-color:var(--interface)}
+.dial input::-webkit-slider-thumb{border-color:var(--interface);background:var(--interface)}
+.dial input::-moz-range-thumb{background:var(--interface)}
+input[type=checkbox]{border-color:var(--interface)}
+input[type=checkbox]:checked{background:var(--interface)}
+summary::before{border-color:var(--interface)}
+details[open] summary::before,summary:hover::before{background:var(--interface)}
+.site-cursor{background:var(--interface);border-color:var(--interface)}
+.site-cursor.pressed{background:var(--interface)}
+#grid[aria-pressed=true]::before,#grid-toggle[aria-pressed=true]::before{background:var(--interface)}
+dialog,.post-crop,#post-canvas{border-color:var(--interface)}
+input[name=title]{border-bottom-color:var(--interface)}

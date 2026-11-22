@@ -31,7 +31,7 @@
     try{await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('Could not render the symbol.'));image.src=url})}
     finally{URL.revokeObjectURL(url)}
     const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1350;
-    const c=canvas.getContext('2d');c.fillStyle='#FFFEF8';c.fillRect(0,0,1080,1350);c.drawImage(image,0,0);
+    const c=canvas.getContext('2d');c.fillStyle='#C0C0C0';c.fillRect(0,0,1080,1350);c.drawImage(image,0,0);
     // Typography: title starts at 44px, wraps within 840px, and shrinks for long names.
     const name=d.name.trim()||'Untitled';let size=44,lines;
     do{ctx.font=`650 ${size}px "Inter Tight"`;lines=wrap(name,840);if(lines.length<=3)break;size-=2}while(size>=20);
@@ -48,7 +48,7 @@
     const id=++request,snapshot=structuredClone(drawing);post=null;
     $('post-publish').disabled=$('post-download').disabled=true;$('post-result').hidden=true;
     $('post-status').textContent='Preparing your post…';
-    ctx.fillStyle='#FFFEF8';ctx.fillRect(0,0,1080,1350);
+    ctx.fillStyle='#C0C0C0';ctx.fillRect(0,0,1080,1350);
     $('post-portrait').removeAttribute('src');$('post-square').removeAttribute('src');dialog.showModal();
     if(!snapshot.n.some(n=>!n[2])){$('post-status').textContent='Add a circle or square to your drawing first.';return}
     try{
