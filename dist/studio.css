@@ -176,6 +176,9 @@ button:hover:not(:disabled)::before,button.on::before,button.active::before{back
 .tree-section>h2::before{border-color:var(--interface)}
 .ticks i{border-color:var(--interface)}
 .dial input::-webkit-slider-runnable-track,.dial input::-moz-range-track{border-color:var(--interface)}
+.dial input::-webkit-slider-runnable-track{border-top-color:var(--interface)}
+.dial input::-moz-range-track{border-top-color:var(--interface)}
+.tree-items>.card::after{border-top-color:var(--interface)}
 .dial input::-webkit-slider-thumb{border-color:var(--interface);background:var(--interface)}
 .dial input::-moz-range-thumb{background:var(--interface)}
 input[type=checkbox]{border-color:var(--interface)}
