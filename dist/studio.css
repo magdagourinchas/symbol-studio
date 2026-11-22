@@ -29,7 +29,11 @@ kbd{font-size:10px;margin-left:2px}
 .history button,.element-actions button{font-size:12px}.history button::before,.element-actions button::before{width:var(--detail-circle);height:var(--detail-circle)}
 .canvas{display:block;width:100%;height:clamp(300px,46vh,620px);touch-action:none;user-select:none;-webkit-user-select:none;cursor:default}
 .canvas [data-n]{cursor:grab}.canvas [data-e]{cursor:pointer}.canvas.dragging,.canvas.dragging *{cursor:grabbing}
-.canvas-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;font-size:12px}
+.canvas-footer{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px 0;font-size:12px}
+.canvas-controls{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.export-controls{display:flex;align-items:center;gap:16px}
+.export-controls>span{font-size:16px;line-height:14px}
+.export-controls button{font-size:16px;line-height:14px}
 label{font-size:14px}.canvas-footer label{font-size:12px;display:flex;align-items:center;gap:8px}
 input[type=checkbox]{appearance:none;-webkit-appearance:none;display:inline-block;vertical-align:middle;width:10px;height:10px;min-width:10px;margin:0 3px 0 0;border:1px solid var(--ink);border-radius:50%;background:var(--paper);cursor:pointer}
 input[type=checkbox]:checked{background:var(--ink)}
@@ -61,7 +65,7 @@ aside h2{font-size:14px;margin-bottom:16px}aside h2:nth-of-type(2){margin-top:40
 .archive>.label{display:block;font-size:12px;padding-block:12px}
 footer{margin:0 3vw;padding:20px 0;display:flex;justify-content:space-between;font-size:12px}
 /* Custom cursor: normal, hover, and pressed sizes. Position is updated in editor.js. */
-.site-cursor{position:fixed;left:0;top:0;width:10px;height:10px;background:var(--ink);border:1px solid var(--ink);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;transition:width .15s,height .15s,background .15s}
+.site-cursor{position:fixed;left:0;top:0;width:15px;height:15px;background:var(--ink);border:1px solid var(--ink);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;transition:width .15s,height .15s,background .15s}
 .site-cursor.hover{width:25px;height:25px;background:transparent}.site-cursor.pressed{width:5px;height:5px;background:var(--ink)}
 @media(hover:hover) and (pointer:fine){body.custom-cursor,body.custom-cursor *{cursor:none!important}.custom-cursor .site-cursor.visible{display:block}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -70,7 +74,7 @@ footer{margin:0 3vw;padding:20px 0;display:flex;justify-content:space-between;fo
 header{justify-content:flex-start;padding-top:20px}header h1{font-size:clamp(32px,4vw,52px);font-weight:600;letter-spacing:-.04em}
 input[name=title]{font-size:24px;letter-spacing:-.02em}
 main{grid-template-columns:minmax(0,1fr) minmax(250px,25%);column-gap:4vw;row-gap:60px}
-.canvas{border:1px solid var(--ink)}
+.canvas{border:0}
 button.primary::before{width:10px;height:10px}
 .ticks{margin:-17px 4.5px 12px}.ticks i{width:0;height:5px;border:0;border-left:1px solid var(--ink);border-radius:0;background:none}
 .inspector{display:flex;flex-direction:column;gap:36px;padding:0}
@@ -116,6 +120,7 @@ button:hover:not(:disabled),a:hover{font-weight:700}
 .zoom button::before{width:10px;height:10px}
 .canvas-footer{flex-wrap:wrap;gap:12px 20px}
 .canvas-footer #selection{font-size:12px;line-height:14px;flex-basis:100%}
+#selection{display:none}
 .zoom{gap:16px;flex-wrap:wrap}
 #grid{margin-left:auto}#grid[aria-pressed=true]::before,#grid-toggle[aria-pressed=true]::before{background:var(--ink)}
 #grid,#grid-toggle{margin-left:0}
