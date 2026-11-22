@@ -367,7 +367,7 @@ document.addEventListener('pointermove',ev=>{
 },{passive:true});
 document.addEventListener('pointerdown',()=>cursor.classList.add('pressed'),{passive:true});
 document.addEventListener('pointerup',()=>cursor.classList.remove('pressed'),{passive:true});
-document.addEventListener('pointercancel',hideCursor);document.documentElement.addEventListener('pointerleave',hideCursor);window.addEventListener('blur',hideCursor);finePointer.addEventListener('change',hideCursor);
+document.addEventListener('pointercancel',hideCursor);document.documentElement.addEventListener('pointerleave',hideCursor);document.addEventListener('pointerout',ev=>{if(!ev.relatedTarget)hideCursor()});window.addEventListener('blur',hideCursor);finePointer.addEventListener('change',hideCursor);
 // KEYBOARD SHORTCUTS: change key mappings here and the help text in index.html together.
 document.addEventListener('keydown',ev=>{
   if(document.querySelector('dialog[open]'))return;

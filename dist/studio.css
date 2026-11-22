@@ -165,6 +165,4 @@ input[type=checkbox]:indeterminate{background:linear-gradient(var(--ink),var(--i
 .embed-mode main{padding:20px;row-gap:20px}
 .embed-mode .foot{justify-content:flex-end}
 .embed-mode body{min-width:280px}
-.embed-mode .site-cursor{display:none!important;visibility:hidden!important}
-.embed-mode body.custom-cursor,.embed-mode body.custom-cursor *{cursor:auto!important}
 /* Motion updates individual 2D paths; no whole-symbol rotation, blur, or transform. */
