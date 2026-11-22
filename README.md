@@ -30,7 +30,7 @@ From this folder run `python3 -m http.server 8000 --bind 127.0.0.1 --directory d
 - **Escape** cancels an active drag. Pointer cancellation or focus loss also rolls back unfinished gestures.
 - Nodes use `[x, y, junction, filled, shape, dottedStroke]`, with `shape` either `circle` (default) or `square`. Edges use `[start, end, bendX, bendY, dottedStroke]`; omitted dotted flags default to solid. Squares stay axis-aligned; their connections meet their edges. Legacy symbol-wide fills migrate automatically when loaded.
 - Place a circle on a line, move a shape onto a line, or end a connection on a line to split it into connected segments. With snapping enabled, the new junction uses the grid and the line adjusts to it.
-- Use **− / +** to zoom out / in, **Fit** to center the complete symbol, **Grid** to show or hide the grid, and **Snap** to toggle snapping. Their shortcuts are **G** and **S** respectively. SVG exports include the complete drawing, including shapes outside the original canvas. **Export PNG** creates a square 1200 × 1200 PNG with the symbol centered on `#FFFEF8`.
+- Use **− / +** to zoom out / in, **Fit** to center the complete symbol, **Grid** to show or hide the grid, and **Snap** to toggle snapping. Their shortcuts are **G** and **S** respectively. The export controls sit below zoom as **Export: JSON · SVG · PNG**. SVG exports include the complete drawing, including shapes outside the original canvas. **Export PNG** creates a square 1200 × 1200 transparent PNG with only the ink symbol centered inside it.
 
 ## Checks
 
@@ -40,7 +40,7 @@ Run `node --check dist/editor.js`, `node --check dist/motion.js`, and `node --te
 
 Click **Instagram demo** to compose a 1080 × 1350 JPEG from the current drawing. The symbol is centered on `#FFFEF8`; its title and the local creation date are set in bundled Inter Tight at the bottom left. Portrait (3:4) and square crop previews show the shared safe area. Long titles wrap automatically.
 
-The date uses `MM.DD.YY` and sits directly below the title. The **Symbol style** menu has four ten-stop sliders: **Shape size** (8–192 units), **Line weight** (0.5–16 units), **Edge distortion** (clean through 6.4-unit offsets per axis), and **Distortion scale** (0.2× fine waviness through 8× broad waviness). Amount and scale are independent. The artwork uses smooth vector centerlines stroked at a constant line weight, with no raster filters, blur, or opacity grain. These settings save per symbol and carry through to SVG and Instagram JPEG exports. UI text, controls, and the paper background remain untextured.
+The date uses `MM.DD.YY` and sits directly below the title. The **Symbol style** menu has four ten-stop sliders: **Shape size** (8–192 units), **Line weight** (0.5–16 units), **Distortion amount** (clean through 6.4-unit offsets per axis), and **Distortion scale** (0.2× fine waviness through 8× broad waviness). Amount and scale are independent. The artwork uses smooth vector centerlines stroked at a constant line weight, with no raster filters, blur, or opacity grain. These settings save per symbol and carry through to SVG and Instagram JPEG exports. UI text, controls, and the paper background remain untextured.
 
 ## Embed version
 
