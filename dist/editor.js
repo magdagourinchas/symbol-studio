@@ -35,10 +35,10 @@ for(const preset of presets){
   for(const node of preset.n){node.splice(0,2,gridValue(node[0]),gridValue(node[1]))}
   for(const edge of preset.e)setCurve(preset,edge,curveLevel(preset,edge));
 }
-function gridMarkup(){return `<defs><pattern id="unit-grid" width="${gridStep}" height="${gridStep}" patternUnits="userSpaceOnUse"><path d="M0 ${gridStep} V0 H${gridStep}" fill="none" stroke="#141414" stroke-opacity=".18" stroke-width="1" vector-effect="non-scaling-stroke"/></pattern></defs><rect x="${view.x}" y="${view.y}" width="${view.w}" height="${view.h}" fill="url(#unit-grid)" pointer-events="none"/>`}
+function gridMarkup(){return gridVisible?`<defs><pattern id="unit-grid" width="${gridStep}" height="${gridStep}" patternUnits="userSpaceOnUse"><path d="M0 ${gridStep} V0 H${gridStep}" fill="none" stroke="#141414" stroke-opacity=".18" stroke-width="1" vector-effect="non-scaling-stroke"/></pattern></defs><rect x="${view.x}" y="${view.y}" width="${view.w}" height="${view.h}" fill="url(#unit-grid)" pointer-events="none"/>`:''}
 // Browser persistence: keep these storage keys stable to retain existing drawings.
 function read(k,f){try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}}
-let drawing=read(draftKey,structuredClone(presets[4])),variations=read('mg-variations-v1',[]),mode='move',history=[],gesture=null;
+let drawing=read(draftKey,null),variations=read('mg-variations-v1',[]),mode='move',history=[],gesture=null;
 let selected=null, future=[];
 let librarySource=null;
 const storedSketchbook=read('mg-sketchbook-v1',null);
@@ -50,13 +50,13 @@ function selectNodes(indices,edges=[]){indices=[...new Set(indices)];edges=[...n
 function movableNodes(){return [...new Set([...selectedNodes(),...selectedEdges().flatMap(i=>drawing.e[i].slice(0,2))])]}
 function canvasRatio(){return canvas.clientWidth&&canvas.clientHeight?canvas.clientWidth/canvas.clientHeight:1.6}
 // Camera window only: changing zoom never changes saved node coordinates.
-let view={x:0,y:0,w:640,h:400};
+let view={x:0,y:0,w:640,h:400},gridVisible=true;
 let motionRuntime=null;
 function bounds(d){if(!d.n.length)return {x:0,y:0,w:640,h:400};const xs=d.n.map(n=>n[0]),ys=d.n.map(n=>n[1]);for(const e of d.e){const f=frame(d,e);xs.push(f.mid[0]+2*e[2]);ys.push(f.mid[1]+2*e[3])}const pad=d.r+d.w+32+warpAmount(d),x=Math.min(...xs)-pad,y=Math.min(...ys)-pad;return {x,y,w:Math.max(...xs)-x+pad,h:Math.max(...ys)-y+pad}}
-function fitView(){const b=bounds(drawing),ratio=canvasRatio(),w=Math.max(640,b.w,b.h*ratio);view={x:b.x+b.w/2-w/2,y:b.y+b.h/2-w/ratio/2,w,h:w/ratio};render()}
+function fitView(){const b=bounds(drawing),ratio=canvasRatio(),w=Math.max(640,b.w,b.h*ratio),cx=b.x+b.w/2,cy=b.y+b.h/2,h=w/ratio;view={x:cx-w/2,y:cy-h/2,w,h};render()}
 function zoom(factor){cancelGesture();const w=Math.max(320,Math.min(10240,view.w*factor)),h=w/canvasRatio();view={x:view.x+(view.w-w)/2,y:view.y+(view.h-h)/2,w,h};render()}
 function migrate(d){for(const n of d.n) if(n[3]===undefined)n[3]=!n[2]&&Boolean(d.filled);delete d.filled;return d}
-migrate(drawing);variations.forEach(migrate);
+if(drawing)migrate(drawing);variations.forEach(migrate);
 function frame(d,e){const A=d.n[e[0]],B=d.n[e[1]],length=Math.hypot(B[0]-A[0],B[1]-A[1])||1;return {mid:[(A[0]+B[0])/2,(A[1]+B[1])/2],normal:[-(B[1]-A[1])/length,(B[0]-A[0])/length],length}}
 function curveLevel(d,e){const f=frame(d,e);return Math.max(-4,Math.min(5,Math.round((e[2]*f.normal[0]+e[3]*f.normal[1])/(f.length/8))))}
 function setCurve(d,e,level){const f=frame(d,e);e[2]=f.normal[0]*f.length/8*level;e[3]=f.normal[1]*f.length/8*level}
@@ -116,6 +116,7 @@ const scales={
   distortion:{key:'distortionScale',levels:[.2,.35,.5,.75,1,1.5,2,3,5,8],factor:1}
 };
 for(const id of Object.keys(scales)){const slider=$(id);slider.min=0;slider.max=9;slider.step=1;slider.parentElement?.querySelector('.ticks')?.replaceChildren(...Array.from({length:10},()=>document.createElement('i')))}
+if(!drawing)drawing=randomSymbol();
 // Refresh the canvas, selection outlines, and control states after an edit.
 function render(){const h=view.w/canvasRatio();view.y+=(view.h-h)/2;view.h=h;canvas.setAttribute('viewBox',`${view.x} ${view.y} ${view.w} ${view.h}`);canvas.innerHTML=gridMarkup()+art(drawing,true);
 $('zoom-value').textContent=Math.round(640/view.w*100)+'%';$('zoom-out').disabled=view.w>=10240;$('zoom-in').disabled=view.w<=320;
@@ -141,7 +142,7 @@ $('delete').disabled=!selected;
 $('curve').disabled=$('straighten').disabled=!edges.length;
 const level=edges.length?curveLevel(drawing,drawing.e[edges[0]]):0;
 $('curve').value=level;$('curve-value').textContent=edges.length?(edges.every(i=>curveLevel(drawing,drawing.e[i])===level)?String(level):'Mixed'):'—';
-$('selection').textContent=selected?.type==='multi'?(selectedNodes().length+edges.length)+' elements selected':selected?(selected.type==='e'?'Connection':drawing.n[selected.i]?.[2]?'Junction':drawing.n[selected.i]?.[4]==='square'?'Square':'Circle')+' selected':'Select an element to edit';
+$('selection').textContent='';
 for(const [id,show] of [['selected-shapes',shapes.length],['selected-fill',shapes.length],['selected-dots',dottedValues.length],['selected-curve',edges.length],['selected-actions',selected],['selected-empty',!selected]])$(id).hidden=!show;
 $('straighten').hidden=!edges.length;
 $('update-entry').disabled=$('delete-entry').disabled=!librarySource;
@@ -153,7 +154,7 @@ if(motionRuntime)paintCanvasMotion();
 function remember(){history.push(structuredClone(drawing));if(history.length>80)history.shift();future=[]}
 function load(d,source=null){cancelGesture();remember();selected=null;librarySource=source;drawing=migrate(structuredClone(d));title.value=drawing.name;fitView();persist();archives()}
 function archives(){for(const [key,items] of [['seeds',presets],['saved',variations]]){let el=$(key);el.replaceChildren();items.forEach((d,index)=>{let b=document.createElement('button');b.className='card'+(librarySource?.key===key&&librarySource.index===index?' active':'');const box=bounds(d);b.innerHTML='<svg viewBox="'+[box.x,box.y,box.w,box.h].join(' ')+'">'+art(d)+'</svg>';b.append(document.createTextNode(d.name));b.title='Edit '+d.name;b.onclick=()=>load(d,{key,index});el.append(b)});if(!items.length)el.innerHTML='<span class="label">No saved symbols</span>'}}
-const hints={move:'Shift-click or drag a box around shapes to select several. Drag a selection to move it. Use O to add circles.',dot:'Click empty space to place a circle. Press V to return to selection.',grow:'Drag from a circle or line to grow a branch. Drop on a circle to connect.',bend:'Drag across a line to choose a symmetric curve level. Click Straighten to reset.',erase:'Click a line or circle to remove it. Press V to return to selection.'};
+const hints={move:'',dot:'Click empty space to place a circle. Press V to return to selection.',grow:'Drag from a circle or line to grow a branch. Drop on a circle to connect.',bend:'Drag across a line to choose a symmetric curve level. Click Straighten to reset.',erase:'Click a line or circle to remove it. Press V to return to selection.'};
 function tool(t){cancelGesture();mode=t;canvas.dataset.tool=t;for(const k in hints){$(k).classList.toggle('on',t===k);$(k).setAttribute('aria-pressed',String(t===k))}$('hint').textContent=hints[t]}
 for(const k in hints)$(k).onclick=()=>tool(k);
 function point(ev){let p=new DOMPoint(ev.clientX,ev.clientY).matrixTransform(canvas.getScreenCTM().inverse());return [p.x,p.y]}
@@ -251,6 +252,7 @@ function saveLibrary(items,key){localStorage.setItem(key==='seeds'?'mg-sketchboo
 $('update-entry').onclick=()=>{if(!librarySource)return;const {key,index}=librarySource,items=key==='seeds'?presets:variations,next=items.slice();next[index]=structuredClone(drawing);next[index].name=next[index].name.trim()||'Untitled';try{saveLibrary(next,key);items.splice(0,items.length,...next);archives();$('status').textContent='Saved edits to '+next[index].name+'.'}catch{$('status').textContent='Could not save edits. Export JSON to keep a copy.'}};
 $('delete-entry').onclick=()=>{if(!librarySource)return;const {key,index}=librarySource,items=key==='seeds'?presets:variations,next=items.filter((d,i)=>i!==index);try{saveLibrary(next,key);items.splice(0,items.length,...next);librarySource=null;render();archives();$('status').textContent='Library entry deleted. The drawing is still open.'}catch{$('status').textContent='Could not delete the saved entry.'}};
 $('grid').onclick=()=>{const button=$('grid');button.checked=!button.checked;button.setAttribute('aria-pressed',String(button.checked));render()};
+$('grid-toggle').onclick=()=>{gridVisible=!gridVisible;const button=$('grid-toggle');button.setAttribute('aria-pressed',String(gridVisible));render()};
 for(const [id,{key,levels}] of Object.entries(scales)){
   const slider=$(id);
   let editing=false;
@@ -375,14 +377,15 @@ document.addEventListener('keydown',ev=>{
   if(gesture)return;
   if(mod&&key==='a'){ev.preventDefault();selectNodes(drawing.n.map((n,i)=>i),drawing.e.map((e,i)=>i));render();return}
   if(mod&&key==='z'){ev.preventDefault();$(ev.shiftKey?'redo':'undo').click();return}
-  if(mod&&key==='s'){ev.preventDefault();if(!embedded)$('save').click();return}
+  if(mod&&key==='s'){ev.preventDefault();return}
   if(mod&&key==='y'){ev.preventDefault();$('redo').click();return}
   if(mod||ev.altKey)return;
   const tools={v:'move',o:'dot',c:'grow',b:'bend',e:'erase'};
   if(tools[key]){ev.preventDefault();tool(tools[key])}
   if(key==='f'&&!$('filled').disabled){ev.preventDefault();$('filled').click()}
   if(key==='d'&&!$('dotted').disabled){ev.preventDefault();$('dotted').click()}
-  if(key==='g'){ev.preventDefault();$('grid').click()}
+  if(key==='g'){ev.preventDefault();$('grid-toggle').click()}
+  if(key==='s'){ev.preventDefault();$('grid').click()}
   if(key==='delete'||key==='backspace'){ev.preventDefault();removeSelection()}
   if(key.startsWith('arrow')&&selected?.type==='multi'){ev.preventDefault();remember();const step=$('grid').checked?32:ev.shiftKey?10:1;movableNodes().forEach(i=>{drawing.n[i][0]+=key==='arrowright'?step:key==='arrowleft'?-step:0;drawing.n[i][1]+=key==='arrowdown'?step:key==='arrowup'?-step:0});finish();return}
   if(key.startsWith('arrow')&&selected?.type==='n'){

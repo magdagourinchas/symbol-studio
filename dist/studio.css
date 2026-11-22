@@ -118,6 +118,7 @@ button:hover:not(:disabled),a:hover{font-weight:700}
 .canvas-footer #selection{font-size:12px;line-height:14px;flex-basis:100%}
 .zoom{gap:16px;flex-wrap:wrap}
 #grid{margin-left:auto}#grid[aria-pressed=true]::before{background:var(--ink)}
+#grid,#grid-toggle{margin-left:0}
 .history button,.element-actions button,label{font-size:14px;line-height:16px}
 .hint,.label,#status,.archive>.label,details,footer,.zoom output{font-size:12px;line-height:14px}
 details p{line-height:18px}.hint{line-height:18px}
@@ -155,6 +156,7 @@ input[type=checkbox]:indeterminate{background:linear-gradient(var(--ink),var(--i
 @media(prefers-reduced-motion:reduce){.selected-panel .tree-item{animation:none!important}}
 /* EMBED MODE: same editor, without branding, publishing or library UI. */
 .embed-mode header,.embed-mode footer,.embed-mode .library,.embed-mode #save,.embed-mode #instagram,.embed-mode #post-dialog,.embed-mode .full-only{display:none!important}
+.library,#save,#instagram{display:none!important}
 .embed-mode main{padding:20px;row-gap:20px}
 .embed-mode .foot{justify-content:flex-end}
 .embed-mode body{min-width:280px}

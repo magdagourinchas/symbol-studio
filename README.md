@@ -19,7 +19,7 @@ From this folder run `python3 -m http.server 8000 --bind 127.0.0.1 --directory d
 - **V** Select / move; **O** Add circle; **C** Connect; **B** Bend; **E** Erase.
 - **Shift-click** shapes or lines, or drag a box in Select mode, to select mixed groups. **Ctrl / Cmd A** selects all. **D** toggles dotted strokes for the selection. Curve controls apply to selected lines; fill and circle/square conversion apply to selected shapes. The Selected menu reveals only relevant controls.
 - **Randomize symbol** creates 4–20 connected, grid-aligned shapes, with varied dotted strokes, shape size, line weight, distortion amount, and distortion scale. Undo restores the previous drawing.
-- Experimental connected motion is currently disabled for production with `canvasMotionEnabled` in `dist/editor.js`. Its implementation remains in `dist/motion.js` for future iteration; saved coordinates and exports are static.
+- Experimental connected motion is currently disabled for production with `canvasMotionEnabled` in `dist/editor.js`. Its implementation remains in `dist/motion.js` for future iteration; saved coordinates and exports are static. A random drawing is generated when no active local draft exists; an active draft is preserved across refreshes.
 - Click a Sketchbook or variation entry to edit it. **Save edits** updates that entry, including its name; **Save variation** creates a separate copy. **Delete library entry** removes the saved entry while leaving the open drawing intact. Sketchbook edits persist locally under `mg-sketchbook-v1`.
 - Select a circle, then use **F** or **Fill circle** to toggle only that circle.
 - Select a connection or one/more shapes and toggle **Dotted stroke** to replace the continuous stroke with round points. Dot diameter equals Line weight, spacing scales with it, and the dots follow the same distorted vector path. Fill remains independent. The style is saved in node slot 5 and edge slot 4 and is retained in SVG/Instagram exports.
@@ -30,7 +30,7 @@ From this folder run `python3 -m http.server 8000 --bind 127.0.0.1 --directory d
 - **Escape** cancels an active drag. Pointer cancellation or focus loss also rolls back unfinished gestures.
 - Nodes use `[x, y, junction, filled, shape, dottedStroke]`, with `shape` either `circle` (default) or `square`. Edges use `[start, end, bendX, bendY, dottedStroke]`; omitted dotted flags default to solid. Squares stay axis-aligned; their connections meet their edges. Legacy symbol-wide fills migrate automatically when loaded.
 - Place a circle on a line, move a shape onto a line, or end a connection on a line to split it into connected segments. With snapping enabled, the new junction uses the grid and the line adjusts to it.
-- Use **− / +** to zoom out / in and **Fit** to see the full symbol. SVG exports include the complete drawing, including shapes outside the original canvas. **Export PNG** creates a square 1200 × 1200 PNG with the symbol centered on `#FFFEF8`.
+- Use **− / +** to zoom out / in, **Fit** to center the complete symbol, **Grid** to show or hide the grid, and **Snap** to toggle snapping. Their shortcuts are **G** and **S** respectively. SVG exports include the complete drawing, including shapes outside the original canvas. **Export PNG** creates a square 1200 × 1200 PNG with the symbol centered on `#FFFEF8`.
 
 ## Checks
 

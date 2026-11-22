@@ -1,7 +1,7 @@
 <!doctype html>
 <!-- UI structure and labels. Keep element IDs in sync with editor.js and post.js.
      Asset query versions below can be bumped after edits to bypass browser caching. -->
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Create and export circle, square, and line symbols."><meta name="theme-color" content="#FFFEF8"><meta name="color-scheme" content="light"><meta name="referrer" content="strict-origin-when-cross-origin"><title>Symbol Studio · Magda Gourinchas</title><link rel="icon" href="icon.svg" type="image/svg+xml"><script src="bootstrap.js?v=1"></script><link rel="stylesheet" href="studio.css?v=19"></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Create and export circle, square, and line symbols."><meta name="theme-color" content="#FFFEF8"><meta name="color-scheme" content="light"><meta name="referrer" content="strict-origin-when-cross-origin"><title>Symbol Studio · Magda Gourinchas</title><link rel="icon" href="icon.svg" type="image/svg+xml"><script src="bootstrap.js?v=1"></script><link rel="stylesheet" href="studio.css?v=20"></head>
 <body>
 <header><img class="studio-logo" src="icon.svg" width="36" height="36" alt=""><h1>Symbol Studio</h1></header>
 <main><section aria-label="Editor">
@@ -11,10 +11,10 @@
 <button id="move" title="Select and move (V)">Select <kbd>V</kbd></button><button id="dot" title="Add a circle (O)">Circle <kbd>O</kbd></button><button id="grow" title="Connect (C)">Connect <kbd>C</kbd></button><button id="bend" title="Bend (B)">Bend <kbd>B</kbd></button><button id="erase" title="Erase (E)">Erase <kbd>E</kbd></button>
 <span class="history"><button id="undo" title="Undo (Ctrl / ⌘ Z)">↶ Undo</button><button id="redo" title="Redo (Ctrl / ⌘ Shift Z)">↷ Redo</button></span></div>
 <svg id="canvas" class="canvas" viewBox="0 0 640 400" aria-label="Symbol drawing surface" tabindex="0"></svg>
-<div class="canvas-footer"><span id="selection">Nothing selected</span><div class="row zoom"><button id="zoom-out">Zoom out</button><output id="zoom-value" hidden></output><button id="zoom-in">Zoom in</button><button id="zoom-fit">Fit</button></div><button id="grid" aria-pressed="true" title="Snap to grid (G)">Snap <kbd>G</kbd></button></div></div>
+<div class="canvas-footer"><span id="selection" aria-live="polite"></span><div class="row zoom"><button id="zoom-out">Zoom out</button><output id="zoom-value" hidden></output><button id="zoom-in">Zoom in</button><button id="zoom-fit">Fit</button><button id="grid-toggle" aria-pressed="true" title="Show or hide the grid (G)">Grid <kbd>G</kbd></button><button id="grid" aria-pressed="true" title="Snap to grid (S)">Snap <kbd>S</kbd></button></div></div></div>
 <p class="hint" id="hint"></p>
 <div class="row foot"><button id="save">Save variation</button><div class="row"><button id="instagram">Instagram demo</button><button id="json">Export JSON</button><button id="export">Export SVG</button><button id="png">Export PNG</button></div></div><p class="label" id="status" role="status"></p>
-<details><summary>Keyboard shortcuts & editing help</summary><p>V Select · O Circle · C Connect · B Bend · E Erase · F Fill selection · D Dotted stroke · G Grid<br>Shift-click lines and shapes or drag a selection box to select a group. Ctrl / ⌘ A selects all.<br>Arrow keys move selected points. Delete removes a selection. Escape cancels a drag.<br>Ctrl / ⌘ Z Undo · Ctrl / ⌘ Shift Z Redo<span class="full-only"> · Ctrl / ⌘ S Save variation</span><br>Drag a line in Select or Bend to shape it. Every slider has ten stops. Edge distortion controls the amount of warp; Distortion scale controls fine versus broad waviness. Drag from a line in Connect to create a junction.</p></details>
+<details><summary>Keyboard shortcuts & editing help</summary><p>V Select · O Circle · C Connect · B Bend · E Erase · F Fill selection · D Dotted stroke · G Grid · S Snap<br>Ctrl / ⌘ A selects all. Arrow keys move selected points. Delete removes a selection. Escape cancels a drag.<br>Ctrl / ⌘ Z Undo · Ctrl / ⌘ Shift Z Redo<br>Drag a line in Select or Bend to shape it. Every slider has ten stops. Edge distortion controls the amount of warp; Distortion scale controls fine versus broad waviness. Drag from a line in Connect to create a junction.</p></details>
 </section>
 <aside class="inspector" aria-label="Editing controls">
 <!-- Contextual selection actions, followed by whole-symbol styling. -->
@@ -44,4 +44,4 @@
 <p id="post-status" class="hint" role="status"></p>
 <section id="post-result" hidden><h3>Latest demo post</h3><p id="post-result-title"></p><p class="hint">Saved locally — not posted to Instagram.</p></section>
 </dialog>
-<script src="motion.js?v=1"></script><script src="editor.js?v=21"></script><script src="post.js?v=3"></script></body></html>
+<script src="motion.js?v=1"></script><script src="editor.js?v=22"></script><script src="post.js?v=3"></script></body></html>
