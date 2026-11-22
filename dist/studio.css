@@ -1,0 +1,161 @@
+/* STYLE MAP: base layout → canvas/controls → connected lists → portfolio typography → Instagram panel.
+   Later rules override earlier ones. Edit the named sections below for the current final styling. */
+@font-face{font-family:'Inter Tight';src:url(fonts/inter-tight-400.ttf) format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Inter Tight';src:url(fonts/inter-tight-600.ttf) format('truetype');font-weight:600;font-display:swap}
+/* Palette and default UI circle diameters. Keep UI borders at 1px. */
+:root{--paper:#FFFEF8;--ink:#141414;--primary-circle:25px;--control-circle:10px;--detail-circle:5px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.25 'Inter Tight'}
+button,input,select,kbd{font:inherit;color:inherit}
+h1,h2,p{margin:0}h1,h2{font-size:14px;font-weight:600}
+header,main{max-width:1800px;margin:auto;padding-inline:3vw}
+header{min-height:80px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+header a{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;font-weight:600}
+header a::before{content:'';width:25px;height:25px;border:1px solid;border-radius:50%;flex:none}
+header a:hover::before{background:var(--ink)}header small{font-size:12px}
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,23%);gap:5vw;padding-block:24px 40px}
+.top,.bar,.row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.top,.foot{justify-content:space-between}.top{margin-bottom:26px}
+input[name=title]{font-size:clamp(28px,3vw,44px);letter-spacing:-.045em;width:min(72%,650px);background:transparent;border:0;padding:0}
+button{display:inline-flex;align-items:center;justify-content:flex-start;gap:8px;background:transparent;border:0;padding:8px 0;cursor:pointer;font-size:14px;text-align:left;min-height:36px}
+button::before{content:'';display:block;width:var(--control-circle);height:var(--control-circle);border:1px solid var(--ink);border-radius:50%;flex:none;transition:background .15s}
+button:hover:not(:disabled),a:hover{font-weight:600}
+button:hover:not(:disabled)::before,button.on::before,button.active::before{background:var(--ink)}
+button.primary::before{width:var(--primary-circle);height:var(--primary-circle)}
+button.primary{font-weight:600;gap:12px}
+button:disabled{opacity:.35;cursor:default}
+:focus-visible{outline:1px dashed var(--ink);outline-offset:5px}
+kbd{font-size:10px;margin-left:2px}
+.bar{gap:18px;padding:0 0 16px;user-select:none}.history{display:flex;gap:14px;margin-left:auto}
+.history button,.element-actions button{font-size:12px}.history button::before,.element-actions button::before{width:var(--detail-circle);height:var(--detail-circle)}
+.canvas{display:block;width:100%;height:clamp(300px,46vh,620px);touch-action:none;user-select:none;-webkit-user-select:none;cursor:default}
+.canvas [data-n]{cursor:grab}.canvas [data-e]{cursor:pointer}.canvas.dragging,.canvas.dragging *{cursor:grabbing}
+.canvas-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;font-size:12px}
+label{font-size:14px}.canvas-footer label{font-size:12px;display:flex;align-items:center;gap:8px}
+input[type=checkbox]{appearance:none;-webkit-appearance:none;display:inline-block;vertical-align:middle;width:10px;height:10px;min-width:10px;margin:0 3px 0 0;border:1px solid var(--ink);border-radius:50%;background:var(--paper);cursor:pointer}
+input[type=checkbox]:checked{background:var(--ink)}
+label:has(input[type=checkbox]:not(:disabled)){cursor:pointer}
+label:has(input[type=checkbox]:not(:disabled)):hover{font-weight:600}
+input:disabled{cursor:default}
+.hint{font-size:12px;line-height:1.6;padding:8px 0 20px}
+.inspector{display:grid;grid-template-columns:1fr 1fr;gap:26px;padding:20px 0 24px}
+.inspector h2{font-size:13px;margin-bottom:16px}.inspector .row{gap:16px}
+.settings{align-items:center}.settings label{display:flex;align-items:center;gap:8px}
+.settings .dial{display:grid;gap:0;width:calc(50% - 8px);min-width:0}
+.dial>span:first-child{display:flex;justify-content:space-between;gap:10px}
+.dial output{font-variant-numeric:tabular-nums}
+/* Slider appearance only; actual values and generated tick counts live in editor.js → scales. */
+.dial input{appearance:none;background:transparent;cursor:ew-resize;width:100%;height:28px;margin:0}
+.dial input::-webkit-slider-runnable-track{height:0;border:0;border-top:1px solid var(--ink);background:none;box-shadow:none}
+.dial input::-moz-range-track{height:0;border:0;border-top:1px solid var(--ink);background:none;box-shadow:none}
+.dial input::-webkit-slider-thumb{appearance:none;width:10px;height:10px;border:1px solid var(--ink);background:var(--ink);border-radius:50%;margin-top:-4.5px}
+.dial input::-moz-range-thumb{width:10px;height:10px;border:0;background:var(--ink);border-radius:50%}
+.ticks{display:flex;justify-content:space-between;margin:-4px 2.5px 0;pointer-events:none}
+.ticks i{width:5px;height:5px;border:1px solid var(--ink);border-radius:50%;background:var(--paper)}
+.dial input:disabled{cursor:default}.inspector label:has(input:disabled){opacity:.35}
+.element-actions{margin-top:14px}.foot{margin-top:12px}.foot .row{gap:20px}
+#status{min-height:20px;font-size:12px;margin-top:12px}
+details{font-size:12px}summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;min-height:32px}
+summary::-webkit-details-marker{display:none}summary::before{content:'';width:5px;height:5px;border:1px solid;border-radius:50%}details[open] summary::before,summary:hover::before{background:var(--ink)}details p{line-height:1.8;margin-top:10px}
+aside h2{font-size:14px;margin-bottom:16px}aside h2:nth-of-type(2){margin-top:40px}
+.card{width:100%;gap:12px;min-height:62px;padding:10px 0}.card.active{font-weight:600}.card svg{width:64px;height:40px;flex:none}
+.archive>.label{display:block;font-size:12px;padding-block:12px}
+footer{margin:0 3vw;padding:20px 0;display:flex;justify-content:space-between;font-size:12px}
+/* Custom cursor: normal, hover, and pressed sizes. Position is updated in editor.js. */
+.site-cursor{position:fixed;left:0;top:0;width:10px;height:10px;background:var(--ink);border:1px solid var(--ink);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;transition:width .15s,height .15s,background .15s}
+.site-cursor.hover{width:25px;height:25px;background:transparent}.site-cursor.pressed{width:5px;height:5px;background:var(--ink)}
+@media(hover:hover) and (pointer:fine){body.custom-cursor,body.custom-cursor *{cursor:none!important}.custom-cursor .site-cursor.visible{display:block}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(max-width:1100px){.bar{gap:12px}.history{margin-left:0}.inspector{grid-template-columns:1fr}.canvas{height:auto;aspect-ratio:8/5}}
+@media(max-width:760px){main{grid-template-columns:1fr;padding-top:12px}header{min-height:60px}header small{display:none}header h1,header a{font-size:14px}.canvas-footer{flex-wrap:wrap}footer span{display:none}.inspector{gap:22px}kbd{display:none}.bar{gap:14px}button{min-height:40px}.settings .dial{width:calc(50% - 8px)}aside{padding-top:16px}}
+header{justify-content:flex-start;padding-top:20px}header h1{font-size:clamp(32px,4vw,52px);font-weight:600;letter-spacing:-.04em}
+input[name=title]{font-size:24px;letter-spacing:-.02em}
+main{grid-template-columns:minmax(0,1fr) minmax(250px,25%);column-gap:4vw;row-gap:60px}
+.canvas{border:1px solid var(--ink)}
+button.primary::before{width:10px;height:10px}
+.ticks{margin:-17px 4.5px 12px}.ticks i{width:0;height:5px;border:0;border-left:1px solid var(--ink);border-radius:0;background:none}
+.inspector{display:flex;flex-direction:column;gap:36px;padding:0}
+.inspector .settings .dial{width:100%}.inspector h2{font-size:16px;margin-bottom:0}
+/* CONNECTED LISTS: 15px heading circles, 5px endpoints, 10px horizontal branches.
+   Change branch/circle left positions together so their edges still meet. */
+.tree-section{position:relative;padding-left:36px;align-self:start;width:100%}
+.tree-items{position:relative;padding-bottom:12px}
+.tree-items::before{content:'';position:absolute;left:-29px;top:-26px;bottom:2px;width:0;border-left:1px solid var(--ink)}
+.tree-items::after{content:'';position:absolute;left:-31px;bottom:-2px;width:5px;height:5px;box-sizing:border-box;border:1px solid var(--ink);border-radius:50%;background:var(--paper)}
+.tree-section>h2{position:relative;margin:0 0 16px;font-size:16px;font-weight:400}
+.tree-section>h2::before{content:'';position:absolute;width:15px;height:15px;box-sizing:border-box;left:-36px;top:2.5px;border:1px solid var(--ink);border-radius:50%;background:var(--paper);z-index:1}
+.tree-item,.tree-items>.card{position:relative;padding:12px 0;min-height:44px}
+.tree-items>.card::after{content:'';position:absolute;left:-29px;top:50%;width:10px;height:0;border-top:1px solid var(--ink);transform:translateY(-50%)}
+.tree-items>.card::before{position:absolute;left:-19px;top:50%;transform:translateY(-50%);width:5px;height:5px;box-sizing:border-box;z-index:1;background:var(--paper)}
+.tree-items>.card:hover::before,.tree-items>.card.active::before{background:var(--ink)}
+.tree-items>.card{padding-left:4px;gap:12px}.tree-items>.card::after{z-index:0}
+.shape-options{display:flex;gap:16px}.shape-options button[aria-pressed=true]::before{background:var(--ink)}
+#shape-square::before{border-radius:0}.element-actions{margin-top:0}
+.library{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:5vw}
+.zoom{gap:12px}.zoom button{font-size:12px}.zoom button::before{width:5px;height:5px}.zoom output{font-size:12px;font-variant-numeric:tabular-nums}
+@media(max-width:760px){main{grid-template-columns:1fr;row-gap:32px}.library{grid-template-columns:1fr;gap:32px}.inspector{gap:28px}header h1{font-size:36px}input[name=title]{font-size:22px}.canvas-footer{gap:12px}.tree-section{margin-left:0}}
+.studio-logo{width:36px;height:36px;flex:none}
+header{gap:16px}
+.canvas .hover-outline{opacity:0;pointer-events:none;fill:none;stroke:var(--ink);stroke-width:1;stroke-dasharray:1 3;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.canvas .editable:hover>.hover-outline{opacity:1}
+.canvas.dragging .hover-outline{opacity:0}
+button::before,summary::before{box-sizing:border-box}
+.dial input::-webkit-slider-runnable-track{position:relative}
+.dial input::-webkit-slider-thumb{position:relative;z-index:1}
+/* Portfolio hierarchy: heading-01 16/16, body 16/18, small-circle 14/16,
+   descriptive 12/14. Retain Inter Tight throughout the studio. */
+@font-face{font-family:'Inter Tight';src:url(fonts/inter-tight-variable.ttf) format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+body{font-size:16px;line-height:18px;font-weight:400}
+header h1{font-size:38px;line-height:44px;font-weight:700;letter-spacing:normal}
+input[name=title]{font-size:16px;line-height:16px;font-weight:650;letter-spacing:normal}
+.tree-section>h2,.inspector h2{font-size:16px;line-height:16px;font-weight:650}
+.tree-section>h2::before{top:.5px}
+.tree-items::before{top:-24px}
+button,.zoom button,.card{font-size:16px;line-height:14px;font-weight:350;gap:10px}
+button:hover:not(:disabled),a:hover{font-weight:700}
+.card.active{font-weight:650}
+.zoom button::before{width:10px;height:10px}
+.canvas-footer{flex-wrap:wrap;gap:12px 20px}
+.canvas-footer #selection{font-size:12px;line-height:14px;flex-basis:100%}
+.zoom{gap:16px;flex-wrap:wrap}
+#grid{margin-left:auto}#grid[aria-pressed=true]::before{background:var(--ink)}
+.history button,.element-actions button,label{font-size:14px;line-height:16px}
+.hint,.label,#status,.archive>.label,details,footer,.zoom output{font-size:12px;line-height:14px}
+details p{line-height:18px}.hint{line-height:18px}
+@media(max-width:760px){body{font-size:14px;line-height:16px}input[name=title],.tree-section>h2,.inspector h2{font-size:14px;line-height:14px}.tree-section>h2::before{top:-.5px}.tree-items::before{top:-23px}button,.zoom button,.card{font-size:14px;line-height:16px}}
+/* INSTAGRAM PANEL: these sizes affect the preview UI, not the exported image (see post.js). */
+dialog{color:var(--ink);background:var(--paper);border:1px solid var(--ink);padding:24px;width:min(900px,94vw);max-height:92vh;overflow:auto}
+dialog::backdrop{background:rgb(20 20 20 / .35)}
+.post-header{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.post-header h2{font-size:16px;line-height:18px;font-weight:650}
+.post-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.42fr);gap:28px}
+dialog h3{font-size:14px;line-height:16px;font-weight:400;margin:0 0 12px}
+#post-canvas{display:block;width:100%;height:auto;border:1px solid var(--ink)}
+.post-crop{border:1px solid var(--ink);width:100%;overflow:hidden;margin-bottom:24px;position:relative}
+.post-crop.portrait{aspect-ratio:3/4}.post-crop.square{aspect-ratio:1}
+.post-crop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.post-actions{margin-top:24px;gap:24px}#post-result{margin-top:8px}
+@media(max-width:550px){dialog{padding:16px}.post-layout{grid-template-columns:1fr}.post-sidebar{display:grid;grid-template-columns:1fr 1fr;gap:12px}.post-sidebar h3{grid-row:1}.post-sidebar .portrait{grid-column:1;grid-row:2}.post-sidebar .square{grid-column:2;grid-row:2}.post-sidebar .hint{grid-column:1/-1}}
+input[name=title]{border-bottom:1px solid var(--ink);padding-bottom:6px;width:min(100%,480px)}
+.library-actions{grid-column:1/-1}.library-actions .hint{padding-bottom:12px}
+input[type=checkbox]:indeterminate{background:linear-gradient(var(--ink),var(--ink)) center/5px 1px no-repeat var(--paper)}
+/* Retain wheel, touch, and keyboard scrolling without visible scrollbar chrome. */
+*{scrollbar-width:none;-ms-overflow-style:none}
+*::-webkit-scrollbar{display:none;width:0;height:0}
+/* Contextual selection controls share one rhythm and typography. */
+[hidden]{display:none!important}
+.drawing-title{display:flex;align-items:baseline;gap:10px;flex:1 1 240px;max-width:520px}
+.drawing-title input{min-width:0;flex:1;width:100%}
+.selected-panel .tree-item{padding:10px 0;min-height:36px}
+.selected-panel button,.selected-panel label,.selected-panel output{font-size:14px;line-height:16px}
+.selected-panel button{min-height:28px;padding:4px 0}
+.selected-panel .tree-item:not([hidden]){animation:selection-reveal .15s ease-out}
+@keyframes selection-reveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.canvas:focus{outline:none;box-shadow:none}
+.canvas:focus-visible{outline:1px dashed var(--ink);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.selected-panel .tree-item{animation:none!important}}
+/* EMBED MODE: same editor, without branding, publishing or library UI. */
+.embed-mode header,.embed-mode footer,.embed-mode .library,.embed-mode #save,.embed-mode #instagram,.embed-mode #post-dialog,.embed-mode .full-only{display:none!important}
+.embed-mode main{padding:20px;row-gap:20px}
+.embed-mode .foot{justify-content:flex-end}
+.embed-mode body{min-width:280px}
+/* Motion updates individual 2D paths; no whole-symbol rotation, blur, or transform. */
