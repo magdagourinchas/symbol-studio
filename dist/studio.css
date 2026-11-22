@@ -65,9 +65,9 @@ aside h2{font-size:14px;margin-bottom:16px}aside h2:nth-of-type(2){margin-top:40
 .archive>.label{display:block;font-size:12px;padding-block:12px}
 footer{margin:0 3vw;padding:20px 0;display:flex;justify-content:space-between;font-size:12px}
 /* Custom cursor: normal, hover, and pressed sizes. Position is updated in editor.js. */
-.site-cursor{position:fixed;left:0;top:0;width:15px;height:15px;background:var(--ink);border:1px solid var(--ink);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;transition:width .15s,height .15s,background .15s}
+.site-cursor{position:fixed;left:0;top:0;width:15px;height:15px;background:var(--ink);border:1px solid var(--ink);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;visibility:hidden;transition:width .15s,height .15s,background .15s}
 .site-cursor.hover{width:25px;height:25px;background:transparent}.site-cursor.pressed{width:5px;height:5px;background:var(--ink)}
-@media(hover:hover) and (pointer:fine){body.custom-cursor,body.custom-cursor *{cursor:none!important}.custom-cursor .site-cursor.visible{display:block}}
+@media(hover:hover) and (pointer:fine){body.custom-cursor,body.custom-cursor *{cursor:none!important}.custom-cursor .site-cursor.visible{display:block;visibility:visible}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 @media(max-width:1100px){.bar{gap:12px}.history{margin-left:0}.inspector{grid-template-columns:1fr}.canvas{height:auto;aspect-ratio:8/5}}
 @media(max-width:760px){main{grid-template-columns:1fr;padding-top:12px}header{min-height:60px}header small{display:none}header h1,header a{font-size:14px}.canvas-footer{flex-wrap:wrap}footer span{display:none}.inspector{gap:22px}kbd{display:none}.bar{gap:14px}button{min-height:40px}.settings .dial{width:calc(50% - 8px)}aside{padding-top:16px}}
@@ -165,4 +165,6 @@ input[type=checkbox]:indeterminate{background:linear-gradient(var(--ink),var(--i
 .embed-mode main{padding:20px;row-gap:20px}
 .embed-mode .foot{justify-content:flex-end}
 .embed-mode body{min-width:280px}
+.embed-mode .site-cursor{display:none!important;visibility:hidden!important}
+.embed-mode body.custom-cursor,.embed-mode body.custom-cursor *{cursor:auto!important}
 /* Motion updates individual 2D paths; no whole-symbol rotation, blur, or transform. */
